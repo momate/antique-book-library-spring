@@ -18,7 +18,7 @@ public class Book extends EntitySuperClass {
     private String publisher;
     private LocalDate publishDate;
     private int pages;
-    private String quality;
+    private Quality quality;
     @OneToOne(mappedBy = "book")
     private Reserved reserved;
 
