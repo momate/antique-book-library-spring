@@ -1,4 +1,7 @@
-package com.momate.antiquebooklibraryspring.model;
+package com.momate.antiquebooklibraryspring.dto;
+
+import com.momate.antiquebooklibraryspring.model.Book;
+import com.momate.antiquebooklibraryspring.model.User;
 
 import java.time.LocalDateTime;
 

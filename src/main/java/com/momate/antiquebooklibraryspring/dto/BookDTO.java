@@ -1,5 +1,7 @@
-package com.momate.antiquebooklibraryspring.model;
+package com.momate.antiquebooklibraryspring.dto;
 
+import com.momate.antiquebooklibraryspring.model.Quality;
+import com.momate.antiquebooklibraryspring.model.Reserved;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
