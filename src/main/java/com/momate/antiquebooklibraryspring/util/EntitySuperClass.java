@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@MappedSuperclass
 @Data
 public class EntitySuperClass {
 

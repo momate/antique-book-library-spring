@@ -4,13 +4,15 @@ import com.momate.antiquebooklibraryspring.model.Quality;
 import com.momate.antiquebooklibraryspring.model.Reserved;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
-import javax.persistence.OneToOne;
 import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-public class BookDTO {
+public class BookDTO extends RepresentationModel<BookDTO> {
+
+    private Long id;
 
     private String title;
 
