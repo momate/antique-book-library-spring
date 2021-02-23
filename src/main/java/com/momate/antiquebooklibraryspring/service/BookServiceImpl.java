@@ -24,110 +24,54 @@ public class BookServiceImpl implements BookService {
     @Autowired
     private ModelConverter modelConverter;
 
-
     @Override
-    public List<BookDTO> getAllBooks() {
-        List<Book> bookEntitiesList = null;
-        List<BookDTO> bookDTOList = new ArrayList<>();
+    public List<Book> getAllBooks() {
+        List<Book> books = bookRepository.findAll();
 
-        bookEntitiesList = bookRepository.findAll();
-
-        if(bookEntitiesList != null){
-            for (Book b : bookEntitiesList){
-                bookDTOList.add(modelConverter.bookEntityToBookDto(b));
-            }
+        if(books.isEmpty()){
+            books = new ArrayList<>();
         }
 
-        return bookDTOList;
+       return books;
     }
 
     @Override
-    public List<BookDTO> getBooksByAuthor(String author) {
-        List<Book> bookEntitiesList = null;
-        List<BookDTO> bookDTOList = new ArrayList<>();
-
-        bookEntitiesList = bookRepository.findAll();
-
-        if(bookEntitiesList != null){
-            for (Book b : bookEntitiesList){
-                bookDTOList.add(modelConverter.bookEntityToBookDto(b));
-            }
-        }
-
-        return bookDTOList;
+    public List<Book> getBooksByAuthor(String author) {
+        List<Book> bookEntitiesList  = bookRepository.findAll();
+        return bookEntitiesList;
     }
 
     @Override
-    public List<BookDTO> getBooksByPublisher(String publisher) {
-        List<Book> bookEntitiesList = null;
-        List<BookDTO> bookDTOList = new ArrayList<>();
+    public List<Book> getBooksByPublisher(String publisher) {
+        List<Book> bookEntitiesList = bookRepository.findAllByPublisher(publisher);
 
-        bookEntitiesList = bookRepository.findAllByPublisher(publisher);
-
-        if(bookEntitiesList != null){
-            for (Book b : bookEntitiesList){
-                bookDTOList.add(modelConverter.bookEntityToBookDto(b));
-            }
-        }
-
-        return bookDTOList;
+        return bookEntitiesList;
     }
 
     @Override
-    public List<BookDTO> getBooksByPublishDate(LocalDate publishDate) {
-        List<Book> bookEntitiesList = null;
-        List<BookDTO> bookDTOList = new ArrayList<>();
+    public List<Book> getBooksByPublishDate(LocalDate publishDate) {
+        List<Book> bookEntitiesList = bookRepository.findAllByPublishDate(publishDate);
 
-        bookEntitiesList = bookRepository.findAllByPublishDate(publishDate);
-
-        if(bookEntitiesList != null){
-            for (Book b : bookEntitiesList){
-                bookDTOList.add(modelConverter.bookEntityToBookDto(b));
-            }
-        }
-
-        return bookDTOList;
+        return bookEntitiesList;
     }
 
     @Override
-    public List<BookDTO> getBooksByQuality(Quality quality) {
-        List<Book> bookEntitiesList = null;
-        List<BookDTO> bookDTOList = new ArrayList<>();
+    public List<Book> getBooksByQuality(Quality quality) {
+        List<Book> bookEntitiesList  = bookRepository.findAllByQuality(quality);
 
-        bookEntitiesList = bookRepository.findAllByQuality(quality);
-
-        if(bookEntitiesList != null){
-            for (Book b : bookEntitiesList){
-                bookDTOList.add(modelConverter.bookEntityToBookDto(b));
-            }
-        }
-
-        return bookDTOList;
+        return bookEntitiesList;
     }
 
     @Override
-    public BookDTO getBookById(Long id) {
-        Optional<Book> book = bookRepository.findById(id);
-        BookDTO bookDTO = new BookDTO();
+    public Optional<Book> getBookById(Long id) {
 
-        if (book.isPresent()){
-            bookDTO = modelConverter.bookEntityToBookDto(book.get());
-        }
-
-        return bookDTO;
+        return bookRepository.findById(id);
     }
 
     @Override
     public Book saveBook(BookDTO bookDTO) {
-        Book book = null;
-
-        if(bookDTO != null){
-             book = modelConverter.bookDtoToEntity(bookDTO);
-        }
-        bookRepository.save(book);
-
-        return book;
-
+        Book book = modelConverter.bookDtoToEntity(bookDTO);
+        return bookRepository.save(book);
     }
 
     @Override

@@ -6,20 +6,21 @@ import com.momate.antiquebooklibraryspring.model.Quality;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookService {
 
-    List<BookDTO> getAllBooks();
+    List<Book> getAllBooks();
 
-    List<BookDTO> getBooksByAuthor(String author);
+    List<Book> getBooksByAuthor(String author);
 
-    List<BookDTO> getBooksByPublisher(String publisher);
+    List<Book> getBooksByPublisher(String publisher);
 
-    List<BookDTO> getBooksByPublishDate(LocalDate publishDate);
+    List<Book> getBooksByPublishDate(LocalDate publishDate);
 
-    List<BookDTO> getBooksByQuality(Quality quality);
+    List<Book> getBooksByQuality(Quality quality);
 
-    BookDTO getBookById(Long id);
+    Optional<Book> getBookById(Long id);
 
     Book saveBook(BookDTO bookDTO);
 
