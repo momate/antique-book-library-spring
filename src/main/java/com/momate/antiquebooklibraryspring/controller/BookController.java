@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -32,19 +31,27 @@ public class BookController {
 
     @GetMapping("/{id}")
     public BookDTO getBookById(Long id) {
-        Optional<Book> book = bookService.getBookById(id);
-        return bookModelAssembler.toModel(book.get());
+        Book book = bookService.getBookById(id);
+        return bookModelAssembler.toModel(book);
 
     }
 
     @PostMapping
-    public ResponseEntity<?> addBook(@RequestBody BookDTO bookDTO){
+    public ResponseEntity<Book> addBook(@RequestBody BookDTO bookDTO){
         if (bookDTO == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Book book = bookService.saveBook(bookDTO);
         return new ResponseEntity<>(book, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<BookDTO> deleteBook(Long id){
+        BookDTO deleteBookDto = bookModelAssembler.toModel(bookService.deleteBookById(id));
+
+        return new ResponseEntity<>(deleteBookDto, HttpStatus.OK);
+
     }
 
 
