@@ -2,6 +2,8 @@ package com.momate.antiquebooklibraryspring.service;
 
 import com.momate.antiquebooklibraryspring.dao.UserRepository;
 import com.momate.antiquebooklibraryspring.dto.UserDTO;
+import com.momate.antiquebooklibraryspring.exception.BookNotFoundException;
+import com.momate.antiquebooklibraryspring.exception.UserNotFoundException;
 import com.momate.antiquebooklibraryspring.model.User;
 import com.momate.antiquebooklibraryspring.util.ModelConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,29 +31,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> userEntitiesList = null;
-        List<UserDTO> userDTOList = new ArrayList<>();
+    public List<User> getAllUsers() {
+        List<User> users = userRepository.findAll();
 
-        userEntitiesList = userRepository.findAll();
-
-        if(userEntitiesList != null){
-            for (User u: userEntitiesList) {
-                userDTOList.add(modelConverter.userEntityToUserDto(u));
-            }
+        if(users.isEmpty()){
+            users = new ArrayList<>();
         }
-        return userDTOList;
+
+        return users;
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
-        UserDTO userDTO = null;
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            userDTO = modelConverter.userEntityToUserDto(user.get());
+    public User getUserById(Long id) {
+        Optional<User> book =  userRepository.findById(id);
+
+        if(book.isPresent()){
+            return book.get();
         }
 
-        return userDTO;
+        throw new UserNotFoundException("User not found with ID: " + id);
     }
 
     @Override
@@ -73,11 +71,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(UserDTO userDTO) {
-        User user = null;
-        if(userDTO != null){
-            user = modelConverter.userDtoToEntity(userDTO);
-            userRepository.delete(user);
+    public User deleteUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            userRepository.delete(user.get());
+            return user.get();
+        }else{
+            throw new BookNotFoundException("User not found with ID: " + id);
+
         }
     }
 }

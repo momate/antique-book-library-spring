@@ -9,15 +9,15 @@ public interface UserService {
 
     boolean isEmailAlreadyInUse(String email);
 
-    List<UserDTO> getAllUsers();
+    List<User> getAllUsers();
 
-    UserDTO getUserById(Long id);
+    User getUserById(Long id);
 
     UserDTO getUserByEmail(String email);
 
     User saveUser(UserDTO userDTO);
 
-    void deleteUser(UserDTO userDTO);
+    User deleteUser(Long id);
 
 
 
