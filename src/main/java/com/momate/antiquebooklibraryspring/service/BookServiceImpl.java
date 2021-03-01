@@ -3,6 +3,7 @@ package com.momate.antiquebooklibraryspring.service;
 
 
 import com.momate.antiquebooklibraryspring.dao.BookRepository;
+import com.momate.antiquebooklibraryspring.exception.BookNotFoundException;
 import com.momate.antiquebooklibraryspring.model.Book;
 import com.momate.antiquebooklibraryspring.dto.BookDTO;
 import com.momate.antiquebooklibraryspring.model.Quality;
@@ -63,9 +64,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<Book> getBookById(Long id) {
+    public Book getBookById(Long id) {
 
-        return bookRepository.findById(id);
+        Optional<Book> book =  bookRepository.findById(id);
+
+        if(book.isPresent()){
+            return book.get();
+        }
+
+        throw new BookNotFoundException("Book not found with ID: " + id);
     }
 
     @Override
@@ -75,11 +82,15 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteBook(BookDTO bookDTO) {
-        Book book = null;
-        if(bookDTO != null){
-            book = modelConverter.bookDtoToEntity(bookDTO);
+    public Book deleteBookById(Long id){
+        Optional<Book> book = bookRepository.findById(id);
+        if(book.isPresent()){
+            bookRepository.delete(book.get());
+            return book.get();
+        }else{
+            throw new BookNotFoundException("Book not found with ID: " + id);
+
         }
-        bookRepository.delete(book);
+
     }
 }

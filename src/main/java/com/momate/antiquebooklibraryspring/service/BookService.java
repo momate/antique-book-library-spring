@@ -6,7 +6,6 @@ import com.momate.antiquebooklibraryspring.model.Quality;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
 
@@ -20,11 +19,11 @@ public interface BookService {
 
     List<Book> getBooksByQuality(Quality quality);
 
-    Optional<Book> getBookById(Long id);
+    Book getBookById(Long id);
 
     Book saveBook(BookDTO bookDTO);
 
-    void deleteBook(BookDTO bookDTO);
+    Book deleteBookById(Long id);
 
 
 }
